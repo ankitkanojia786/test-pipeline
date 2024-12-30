@@ -19,10 +19,9 @@ phases:
     commands:
       - echo "Packaging the serverless application..."
       - sam package \
-          --output-template-file post-saml.yaml \
-          --s3-bucket your-deployment-s3-bucket \
-          --region us-east-1
- 
-artifacts:
-  files:
-    - packaged-template.yaml
+          --output-template-file post-saml.yaml 
+          
+          
+ artifacts:
+   files:
+    - post-saml.yaml
