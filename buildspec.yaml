@@ -1,0 +1,28 @@
+version: 0.2
+ 
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - echo "Installing SAM CLI..."
+      - pip install aws-sam-cli
+  pre_build:
+    commands:
+      - echo "Validating SAM template..."
+      - sam validate --template-file template.yaml
+  build:
+    commands:
+      - echo "Building the serverless application..."
+      - sam build --template-file template.yaml
+  post_build:
+    commands:
+      - echo "Packaging the serverless application..."
+      - sam package \
+          --output-template-file packaged-template.yaml \
+          --s3-bucket your-deployment-s3-bucket \
+          --region us-east-1
+ 
+artifacts:
+  files:
+    - packaged-template.yaml
