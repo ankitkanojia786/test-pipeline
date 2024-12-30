@@ -1,0 +1,16 @@
+- ParameterKey: AppName
+  ParameterValue: MyServerlessApp
+- ParameterKey: GitHubRepoName
+  ParameterValue: test-pipeline
+- ParameterKey: GitHubRepoBranch
+  ParameterValue: master
+- ParameterKey: GitHubUser
+  ParameterValue: ankitkanojia786
+- ParameterKey: CodeBuildImage
+  ParameterValue: aws/codebuild/standard:6.0
+- ParameterKey: BuildSpecFileNameForAPI
+  ParameterValue: buildspec.yaml
+- ParameterKey: RolesTemplateURL
+  ParameterValue: https://mypocbuck-test.s3.ap-south-1.amazonaws.com/Initial-Legal-Module-setup-roles.yaml
+- ParameterKey: CodePipelineTemplateURL
+  ParameterValue: https://mypocbuck-test.s3.ap-south-1.amazonaws.com/Initial-Legal-Module-setup-pipeline.yaml
