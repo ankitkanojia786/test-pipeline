@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Post-deployment tasks for the serverless app.
+ 
+Resources:
+  CleanupFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: cleanup.lambda_handler
+      Runtime: python3.9
+      Environment:
+        Variables:
+          STACK_NAME: !Ref "AWS::StackName"
+      Policies:
+        - AWSLambdaBasicExecutionRole
