@@ -10,7 +10,6 @@ phases:
   pre_build:
     commands:
       - echo "Validating SAM template..."
-      - ls -al
       - sam validate --template-file saml.yaml
   build:
     commands:
@@ -19,12 +18,10 @@ phases:
   post_build:
     commands:
       - echo "Packaging the serverless application..."
-      - sam package --output-template-file post-saml.yaml
-      - echo "Listing files in the current directory after packaging..."
+      - sam package --output-template-file samout.yaml
+      - echo "Listing files in the current directory..."
       - ls -al
-      - echo "Listing all files recursively for debug..."
-      - find .
 
 artifacts:
   files:
-    - post-saml.yaml
+    - samout.yaml
