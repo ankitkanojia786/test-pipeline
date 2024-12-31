@@ -8,7 +8,7 @@ Resources:
     Properties:
       CodeUri: src/  # Correct path to the src folder
       Handler: app.lambda_handler  # Lambda function entry point
-      Runtime: python3.9
+      Runtime: python3.10
       Events:
         HelloWorldApi:
           Type: Api
