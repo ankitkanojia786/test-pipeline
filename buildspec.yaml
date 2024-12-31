@@ -19,10 +19,11 @@ phases:
   post_build:
     commands:
       - echo "Packaging the serverless application..."
-      - sam package \
-          --output-template-file post-saml.yaml
-      - echo "Listing files in the current directory..."
+      - sam package --output-template-file post-saml.yaml
+      - echo "Listing files in the current directory after packaging..."
       - ls -al
+      - echo "Listing all files recursively for debug..."
+      - find .
 
 artifacts:
   files:
