@@ -1,5 +1,5 @@
 version: 0.2
- 
+
 phases:
   install:
     runtime-versions:
@@ -19,9 +19,8 @@ phases:
     commands:
       - echo "Packaging the serverless application..."
       - sam package \
-          --output-template-file post-saml.yaml 
-          
-          
- artifacts:
-   files:
+          --output-template-file post-saml.yaml
+
+artifacts:
+  files:
     - post-saml.yaml
