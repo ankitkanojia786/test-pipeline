@@ -1,28 +1,55 @@
 version: 0.2
- 
+
+env:
+  variables:
+    # Set environment variables with your actual values
+    S3_BUCKET_NAME: "pipeline-creation-bucket"  # Your S3 bucket for packaging Lambda code
+    REGION: "ap-south-1"                        # The AWS region to deploy in
+    STACK_NAME: "poc-stack"                     # Your CloudFormation stack name
+    IAM_ROLE_ARN: "arn:aws:iam::913524921936:role/poc-stack-cloudformation-role"  # Your IAM execution role ARN
+
 phases:
   install:
     runtime-versions:
-      python: 3.9
+      python: 3.9  # Specify the Python runtime
     commands:
-      - echo "Installing SAM CLI..."
+      # Install AWS SAM CLI
+      - echo Installing AWS SAM CLI...
       - pip install aws-sam-cli
+      - echo AWS SAM CLI installed successfully
+      
   pre_build:
     commands:
-      - echo "Validating SAM template..."
-      - sam validate --template-file template.yaml
+      # Validate the SAM template before packaging
+      - echo Validating SAM template...
+      - sam validate
+      
   build:
     commands:
-      - echo "Building the serverless application..."
-      - sam build --template-file template.yaml
-  post_build:
-    commands:
-      - echo "Packaging the serverless application..."
+      # Package the Lambda function using SAM
+      - echo Packaging Lambda function...
       - sam package \
           --output-template-file packaged-template.yaml \
-          --s3-bucket your-deployment-s3-bucket \
-          --region ap-south-1
- 
+          --s3-bucket $S3_BUCKET_NAME \
+          --region $REGION
+      
+  post_build:
+    commands:
+      # Deploy the application using SAM
+      - echo Deploying Lambda function...
+      - sam deploy \
+          --template-file packaged-template.yaml \
+          --stack-name $STACK_NAME \
+          --capabilities CAPABILITY_IAM \
+          --region $REGION \
+          --role-arn $IAM_ROLE_ARN
+      
 artifacts:
   files:
-    - packaged-template.yaml
+    - packaged-template.yaml  # This file contains the packaged CloudFormation template
+
+  discard-paths: yes
+
+cache:
+  paths:
+    - /root/.cache/pip/**/*
