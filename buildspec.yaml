@@ -19,11 +19,6 @@ phases:
   post_build:
     commands:
       - echo Packaging the serverless application...
-      - sam package --output-template-file samout.yaml --s3-bucket pipeline-creation-bucket --region $AWS_DEFAULT_REGION  # Repeat packaging if necessary (consider removing if redundant)
-
-  deploy:
-    commands:
-      - echo Deploying serverless application...
       - sam deploy --template-file samout.yaml --stack-name poc-backup --capabilities CAPABILITY_IAM  # Deploy the app to the CloudFormation stack
 
 artifacts:
