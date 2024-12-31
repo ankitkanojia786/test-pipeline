@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - echo "Installing dependencies..."
-      - pip install aws-sam-cli  # Install AWS SAM CLI
+      - pip install aws-sam-cli  # Install the AWS SAM CLI
   pre_build:
     commands:
       - echo "Validating SAM template..."
