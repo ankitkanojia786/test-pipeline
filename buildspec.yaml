@@ -8,20 +8,29 @@ phases:
       - echo Installing dependencies
       - pip install aws-sam-cli
       - sam --version
+      - echo Checking the contents of the src directory
+      - ls -la src
 
   pre_build:
     commands:
       - echo Pre-build phase
-      - echo Preparing for build
+      - echo Checking contents of the source folder before build
+      - ls -la src
 
   build:
     commands:
       - echo Building the SAM application
+      - echo Checking contents before building the SAM template
+      - ls -la src
+      - cat src/saml.yaml  # Output the content of the template for debugging
       - sam build --template-file src/saml.yaml --build-dir .aws-sam/build
+      - echo Checking contents of the build directory
+      - ls -la .aws-sam/build
 
   post_build:
     commands:
       - echo Packaging the serverless application...
+      - ls -la .aws-sam/build  # Make sure the build directory contains the template
       - sam package --template-file .aws-sam/build/template.yaml --output-template-file .aws-sam/output/samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1
       - echo Deploying the serverless application...
       - sam deploy --template-file .aws-sam/output/samout.yaml --stack-name poc-backup --capabilities CAPABILITY_IAM
