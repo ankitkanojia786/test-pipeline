@@ -13,6 +13,8 @@ phases:
     commands:
       - echo "Building the serverless application..."
       - sam build --template-file saml.yaml  # Build the SAM application
+      - echo "Listing files in the .aws-sam directory..."  # Check if .aws-sam exists
+      - ls -al .aws-sam/
   post_build:
     commands:
       - echo "Packaging the serverless application..."
@@ -20,7 +22,7 @@ phases:
           --output-template-file samout.yaml \
           --s3-bucket pipeline-creation-bucket \
           --region ap-south-1  # Package the SAM application
-      - echo "Listing files in the current directory after packaging..."
+      - echo "Listing files after packaging..."
       - ls -al  # List the files to confirm samout.yaml is created
 
 artifacts:
