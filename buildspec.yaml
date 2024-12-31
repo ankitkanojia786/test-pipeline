@@ -2,39 +2,22 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      python: 3.10
     commands:
-      - echo Installing dependencies
-      - pip install aws-sam-cli
-      - sam --version
-      - echo Checking the contents of the root directory
-      - ls -la
-
-  pre_build:
-    commands:
-      - echo Pre-build phase
-      - echo Checking contents of the repository
-      - ls -la
-
+      - echo "Installing dependencies..."
   build:
     commands:
-      - echo Building the SAM application
-      - echo Checking contents before building the SAM template
-      - ls -la
-      - cat saml.yaml  # Output the content of the template for debugging
-      - sam build --template-file saml.yaml --build-dir .aws-sam/build
-      - echo Checking contents of the build directory
-      - ls -la .aws-sam/build
-
+      - echo "Building the serverless application..."
+      - sam build --template-file saml.yaml
   post_build:
     commands:
-      - echo Packaging the serverless application...
-      - ls -la .aws-sam/build  # Make sure the build directory contains the template
-      - sam package --template-file .aws-sam/build/template.yaml --output-template-file .aws-sam/output/samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1
-      - echo Deploying the serverless application...
-      - sam deploy --template-file .aws-sam/output/samout.yaml --stack-name poc-backup --capabilities CAPABILITY_IAM
+      - echo "Packaging the serverless application..."
+      - sam package --output-template-file samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1 --template-file saml.yaml
+  deploy:
+    commands:
+      - echo "Deploying the packaged application..."
+      - sam deploy --template-file samout.yaml --stack-name my-stack --capabilities CAPABILITY_IAM
 
 artifacts:
   files:
-    - .aws-sam/output/samout.yaml
+    - samout.yaml
+  discard-paths: yes
