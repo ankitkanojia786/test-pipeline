@@ -1,18 +1,21 @@
 version: 0.2
 
 phases:
-  install:
+  pre_build:
     commands:
-      - echo "Installing dependencies..."
+      - echo "Pre-build phase: No dependencies to install"
+
   build:
     commands:
-      - echo "Building the serverless application..."
-      - sam build --template-file saml.yaml  # Use the correct path to saml.yaml
+      - echo "Building the serverless application"
+      - sam build --template-file saml.yaml  # Builds the application
+
   post_build:
     commands:
       - echo "Packaging the serverless application..."
-      - sam package --output-template-file samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1 --template-file saml.yaml  # Correct SAM packaging command
+      - sam package --output-template-file samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1 --template-file saml.yaml
+      - echo "Packaging complete"
 
 artifacts:
   files:
-    - samout.yaml  # Ensure you are outputting the correct artifact
+    - samout.yaml  # Ensure samout.yaml is included as an artifact
