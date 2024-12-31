@@ -1,23 +1,31 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo Installing dependencies...
+      - pip install aws-sam-cli  # Install SAM CLI if not already installed
+
   pre_build:
     commands:
-      - echo "Starting pre-build phase..."
+      - echo Preparing for build...
 
   build:
     commands:
-      - echo "Starting build phase"
-      - cd src
-      - echo "Running SAM build..."
-      - sam build --template-file ../saml.yaml
+      - echo Building SAM application...
+      - sam build --template-file src/saml.yaml  # Build the application using the template from src/saml.yaml
+      - sam package --output-template-file samout.yaml --s3-bucket pipeline-creation-bucket --region $AWS_DEFAULT_REGION  # Package the SAM app
 
   post_build:
     commands:
-      - echo "Starting post-build phase"
-      - sam package --output-template-file ../samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1 --template-file ../saml.yaml
-      - echo "Packaging complete"
+      - echo Packaging the serverless application...
+      - sam package --output-template-file samout.yaml --s3-bucket pipeline-creation-bucket --region $AWS_DEFAULT_REGION  # Repeat packaging if necessary (consider removing if redundant)
+
+  deploy:
+    commands:
+      - echo Deploying serverless application...
+      - sam deploy --template-file samout.yaml --stack-name poc-backup --capabilities CAPABILITY_IAM  # Deploy the app to the CloudFormation stack
 
 artifacts:
   files:
-    - samout.yaml
+    - samout.yaml  # Ensure the output template file is included as an artifact
