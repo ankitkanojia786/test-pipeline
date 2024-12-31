@@ -8,22 +8,22 @@ phases:
       - echo Installing dependencies
       - pip install aws-sam-cli
       - sam --version
-      - echo Checking the contents of the src directory
-      - ls -la src
+      - echo Checking the contents of the root directory
+      - ls -la
 
   pre_build:
     commands:
       - echo Pre-build phase
-      - echo Checking contents of the source folder before build
-      - ls -la src
+      - echo Checking contents of the repository
+      - ls -la
 
   build:
     commands:
       - echo Building the SAM application
       - echo Checking contents before building the SAM template
-      - ls -la src
-      - cat src/saml.yaml  # Output the content of the template for debugging
-      - sam build --template-file src/saml.yaml --build-dir .aws-sam/build
+      - ls -la
+      - cat saml.yaml  # Output the content of the template for debugging
+      - sam build --template-file saml.yaml --build-dir .aws-sam/build
       - echo Checking contents of the build directory
       - ls -la .aws-sam/build
 
