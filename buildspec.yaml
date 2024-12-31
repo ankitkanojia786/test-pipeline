@@ -2,6 +2,8 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      python: 3.9  # Ensure Python 3.9 is used
     commands:
       - echo "Installing dependencies..."
       - pip install aws-sam-cli  # Install the AWS SAM CLI
@@ -21,7 +23,8 @@ phases:
       - sam package \
           --output-template-file samout.yaml \
           --s3-bucket pipeline-creation-bucket \
-          --region ap-south-1  # Package the SAM application
+          --region ap-south-1 \
+          --template-file saml.yaml  # Correct template file
       - echo "Listing files after packaging..."
       - ls -al  # List the files to confirm samout.yaml is created
 
