@@ -6,8 +6,8 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./src/app.py  # Correct path to the Lambda function code
-      Handler: app.lambda_handler
+      CodeUri: src/  # Correct path to the src folder
+      Handler: app.lambda_handler  # Lambda function entry point
       Runtime: python3.9
       Events:
         HelloWorldApi:
