@@ -4,18 +4,28 @@ phases:
   install:
     commands:
       - echo "Installing dependencies..."
+      # You can install dependencies here, if any (e.g., AWS CLI, SAM CLI, etc.)
+
+  pre_build:
+    commands:
+      - echo "Preparing the environment..."
+      # Any preparation commands can go here
+
   build:
     commands:
       - echo "Building the serverless application..."
       - sam build --template-file saml.yaml
+      # The 'sam build' step compiles your application
+
   post_build:
     commands:
       - echo "Packaging the serverless application..."
       - sam package --output-template-file samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1 --template-file saml.yaml
-  deploy:
-    commands:
-      - echo "Deploying the packaged application..."
+      # The 'sam package' step uploads your application to S3 and prepares the CloudFormation template
+
+      - echo "Deploying the serverless application..."
       - sam deploy --template-file samout.yaml --stack-name my-stack --capabilities CAPABILITY_IAM
+      # The 'sam deploy' step deploys your application to AWS
 
 artifacts:
   files:
