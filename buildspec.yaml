@@ -18,10 +18,13 @@ phases:
   post_build:
     commands:
       - echo "Packaging the serverless application..."
-      - sam package --output-template-file samout.yaml
-      - echo "Listing files in the current directory..."
+      - sam package \
+          --output-template-file samout.yaml \
+          --s3-bucket pipeline-creation-bucket \
+          --region ap-south-1
+      - echo "Listing files in the current directory after packaging..."
       - ls -al
 
 artifacts:
   files:
-    - samout.yaml
+    - perameter.yaml
