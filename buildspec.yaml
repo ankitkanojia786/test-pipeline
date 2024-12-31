@@ -32,7 +32,10 @@ phases:
           --output-template-file packaged-template.yaml \
           --s3-bucket $S3_BUCKET_NAME \
           --region $REGION
-      
+          
+      # Check if the packaging step succeeded
+      - if [ $? -ne 0 ]; then echo "SAM package failed"; exit 1; fi
+
   post_build:
     commands:
       # Deploy the application using SAM
@@ -43,7 +46,10 @@ phases:
           --capabilities CAPABILITY_IAM \
           --region $REGION \
           --role-arn $IAM_ROLE_ARN
-      
+          
+      # Check if the deployment step succeeded
+      - if [ $? -ne 0 ]; then echo "SAM deploy failed"; exit 1; fi
+
 artifacts:
   files:
     - packaged-template.yaml  # This file contains the packaged CloudFormation template
