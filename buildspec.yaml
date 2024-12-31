@@ -8,7 +8,7 @@ phases:
   build:
     commands:
       - echo "Building the serverless application"
-      - sam build --template-file saml.yaml  # Builds the application
+      - sam build --template-file saml.yaml
 
   post_build:
     commands:
@@ -18,4 +18,4 @@ phases:
 
 artifacts:
   files:
-    - samout.yaml  # Ensure samout.yaml is included as an artifact
+    - samout.yaml
