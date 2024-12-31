@@ -17,12 +17,12 @@ phases:
   build:
     commands:
       - echo Building the SAM application
-      - sam build --template-file src/saml.yaml --output-template-file .aws-sam/build/template.yaml
+      - sam build --template-file src/saml.yaml --build-dir .aws-sam/build
 
   post_build:
     commands:
       - echo Packaging the serverless application...
-      - sam package --output-template-file .aws-sam/output/samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1
+      - sam package --template-file .aws-sam/build/template.yaml --output-template-file .aws-sam/output/samout.yaml --s3-bucket pipeline-creation-bucket --region ap-south-1
       - echo Deploying the serverless application...
       - sam deploy --template-file .aws-sam/output/samout.yaml --stack-name poc-backup --capabilities CAPABILITY_IAM
 
