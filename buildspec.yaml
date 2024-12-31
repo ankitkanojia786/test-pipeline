@@ -19,8 +19,8 @@ phases:
     commands:
       - echo "Packaging the serverless application..."
       - sam package \
-          --output-template-file samloutput.yaml
+          --output-template-file samlout.yaml
 
 artifacts:
   files:
-    - samloutput.yaml
+    - samlout.yaml
