@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Sample CodePipeline with 3 stages (Source, Build, Deploy) for S3 deployment
+
+Parameters:
+  PipelineName:
+    Type: String
+    Default: SamplePipeline
+    Description: Name of the CodePipeline
+  S3BucketName:
+    Type: String
+    Description: Name of the S3 bucket for deployment
+  RepositoryName:
+    Type: String
+    Default: SampleRepo
+    Description: Name of the CodeCommit repository
+  RepositoryBranch:
+    Type: String
+    Default: main
+    Description: Branch of the CodeCommit repository
+
+Resources:
+  # S3 Bucket for Pipeline Artifacts
+  PipelineArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${PipelineName}-artifacts'
+  
+  # IAM Role for CodePipeline
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CodePipelineAccessPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:GetBucketVersioning
+                  - s3:PutBucketVersioning
+                Resource: 
+                  - !Sub 'arn:aws:s3:::${PipelineArtifactBucket}'
+                  - !Sub 'arn:aws:s3:::${PipelineArtifactBucket}/*'
+              - Effect: Allow
