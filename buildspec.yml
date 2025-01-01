@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+  build:
+    commands:
+      - echo "Building SAM template..."
+      - sam build --template $SAMInputFile --output-template-file $SAMOutputFile
+
+artifacts:
+  files:
+    - '**/*'
+    - $SAMOutputFile
