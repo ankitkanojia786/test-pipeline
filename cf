@@ -4,7 +4,7 @@ Description: Sample CodePipeline with 3 stages (Source, Build, Deploy) for S3 de
 Parameters:
   PipelineName:
     Type: String
-    Default: SamplePipeline
+    Default: samplepipeline
     Description: Name of the CodePipeline
   S3BucketName:
     Type: String
